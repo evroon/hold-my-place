@@ -1,0 +1,51 @@
+name: release-flow
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+*"
+
+env:
+  # heads-up: this value is used as a pattern in an sed command as a workaround for a trunk issue
+  #   if you use special characters, take a look at the 'Make paths relative' step in the 'build-web' job
+  EXECUTABLE_NAME: hold-my-place
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Build release
+        run: |
+          cargo build --release
+
+      - name: Prepare release
+        run: |
+          strip target/release/${{ env.EXECUTABLE_NAME }}
+          chmod +x target/release/${{ env.EXECUTABLE_NAME }}
+          mv target/release/${{ env.EXECUTABLE_NAME }} .
+
+      - name: Upload release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.EXECUTABLE_NAME }}
+          asset_name: ${{ env.EXECUTABLE_NAME }}_${{ steps.tag.outputs.tag }}
+          tag: ${{ github.ref }}
+          overwrite: true

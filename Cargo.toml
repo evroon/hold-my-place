@@ -2,6 +2,8 @@
 name = "hold-my-place"
 version = "0.1.0"
 edition = "2021"
+authors = ["Erik Vroon"]
+publish = false
 
 [dependencies]
 text-to-png = "0.2.0"
@@ -14,7 +16,7 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 ab_glyph = "0.2.23"
 image = { version = "0.25.0" }
-imageproc = "0.24.0"
+imageproc = "0.25.0"
 png = "0.17.13"
 csscolorparser = "0.6.2"
 svg = "0.17.0"
