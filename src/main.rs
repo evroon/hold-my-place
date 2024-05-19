@@ -12,6 +12,7 @@ mod text;
 mod text_builder;
 use models::Font;
 use serde::Deserialize;
+use tokio::task;
 
 #[tokio::main]
 async fn main() {
@@ -62,16 +63,20 @@ async fn image_handler(
 ) -> impl IntoResponse {
     (
         [(header::CONTENT_TYPE, "image/png")],
-        render::render(
-            width,
-            height,
-            &match &query_params.text {
-                Some(x) => x.to_string(),
-                None => format!("{}x{}", width, height),
-            },
-            &query_params.0.color,
-            &query_params.0.background,
-            query_params.font,
-        ),
+        task::spawn_blocking(move || {
+            render::render(
+                width,
+                height,
+                &match &query_params.text {
+                    Some(x) => x.to_string(),
+                    None => format!("{}x{}", width, height),
+                },
+                &query_params.0.color,
+                &query_params.0.background,
+                query_params.font,
+            )
+        })
+        .await
+        .unwrap(),
     )
 }
