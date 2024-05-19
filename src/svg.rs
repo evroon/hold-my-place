@@ -1,8 +1,8 @@
 use crate::{models::Font, text::_build_text};
-use rusttype::{Font as RustTypeFont, Point};
+use ab_glyph::{FontRef, Point};
 use svg::{node::element::Rectangle, Document};
 
-pub fn _render(
+pub fn render(
     width: u32,
     height: u32,
     text: &str,
@@ -10,7 +10,7 @@ pub fn _render(
     background_color: &str,
     font: Font,
 ) -> Vec<u8> {
-    let font = RustTypeFont::try_from_bytes(font.get_bytes()).unwrap();
+    let font = FontRef::try_from_slice(font.get_bytes()).unwrap();
     let lines_count = text.chars().filter(|c| *c == '\n').count() + 1;
     let render_size = 100.0;
 

@@ -19,7 +19,8 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(index))
-        .route("/:width/:height", get(image_handler));
+        .route("/:width/:height", get(svg_handler))
+        .route("/png/:width/:height", get(png_handler));
 
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3300")
         .await
@@ -56,13 +57,33 @@ fn default_font() -> Font {
     Font::Lato
 }
 
-async fn image_handler(
+async fn png_handler(
     Path((width, height)): Path<(u32, u32)>,
     query_params: Query<ImageQueryParams>,
 ) -> impl IntoResponse {
     (
         [(header::CONTENT_TYPE, "image/png")],
         render::render(
+            width,
+            height,
+            &match &query_params.text {
+                Some(x) => x.to_string(),
+                None => format!("{}x{}", width, height),
+            },
+            &query_params.0.color,
+            &query_params.0.background,
+            query_params.font,
+        ),
+    )
+}
+
+async fn svg_handler(
+    Path((width, height)): Path<(u32, u32)>,
+    query_params: Query<ImageQueryParams>,
+) -> impl IntoResponse {
+    (
+        [(header::CONTENT_TYPE, "image/svg+xml")],
+        svg::render(
             width,
             height,
             &match &query_params.text {
