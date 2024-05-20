@@ -33,6 +33,10 @@
       <img id="preview" class="image" src="/assets/img/600x400.png" />
     </div>
     <div id="main-body">
+      <a class="display social-link" href="https://github.com/evroon/hold-my-place">
+        <i class="white-icon social-icon fa-brands fa-github"></i>
+        GitHub Repository
+      </a>
       <h2>
         Documentation
       </h2>
@@ -47,6 +51,18 @@
 
         <div class="copy-link">
           <a class="copy-link-input">${address}/800/600</a>
+          <button type="button" class="copy-link-button">
+            <span class="material-icons">
+              <i class="white-icon fa-regular fa-copy"></i>
+            </span>
+          </button>
+        </div>
+        <p>
+          The height can be omitted, if you want a square image:
+        </p>
+
+        <div class="copy-link">
+          <a class="copy-link-input">${address}/800</a>
           <button type="button" class="copy-link-button">
             <span class="material-icons">
               <i class="white-icon fa-regular fa-copy"></i>
@@ -68,7 +84,7 @@
         </p>
 
         <div class="copy-link">
-          <a class="copy-link-input">${address}/800/600?text=Hold my place</a>
+          <a class="copy-link-input">${address}/800?text=Hold my place</a>
           <button type="button" class="copy-link-button">
             <span class="material-icons">
               <i class="white-icon fa-regular fa-copy"></i>
@@ -88,7 +104,7 @@
           </p>
 
           <div class="copy-link">
-            <a class="copy-link-input">${address}/800/600?color=fff&background=000</a>
+            <a class="copy-link-input">${address}/800?color=fff&background=000</a>
             <button type="button" class="copy-link-button">
               <span class="material-icons">
                 <i class="white-icon fa-regular fa-copy"></i>
@@ -101,7 +117,7 @@
           </p>
 
           <div class="copy-link">
-            <a class="copy-link-input">${address}/800/600?color=indigo&background=white</a>
+            <a class="copy-link-input">${address}/800?color=indigo&background=white</a>
             <button type="button" class="copy-link-button">
               <span class="material-icons">
                 <i class="white-icon fa-regular fa-copy"></i>
@@ -118,27 +134,30 @@
             Various fonts are available. The default font is Lato.
           </p>
 
-          <a class="font-display" href="${address}/800/600">
-            Lato
-          </a>
-          <a class="font-display font-lora" href="${address}/800/600?font=lora">
-            Lora
-          </a>
-          <a class="font-display font-montserrat" href="${address}/800/600?font=montserrat">
-            Montserrat
-          </a>
-          <a class="font-display font-roboto" href="${address}/800/600?font=roboto">
-            Roboto
-          </a>
-
           <div class="copy-link">
-            <a class="copy-link-input">${address}/800/600?font=montserrat</a>
+            <a class="copy-link-input">${address}/800?font=montserrat</a>
             <button type="button" class="copy-link-button">
               <span class="material-icons">
                 <i class="white-icon fa-regular fa-copy"></i>
               </span>
             </button>
           </div>
+          <p>
+            These fonts are available:
+          </p>
+
+          <a class="display font-display" href="${address}/800">
+            Lato
+          </a>
+          <a class="display font-display font-lora" href="${address}/800?font=lora">
+            Lora
+          </a>
+          <a class="display font-display font-montserrat" href="${address}/800?font=montserrat">
+            Montserrat
+          </a>
+          <a class="display font-display font-roboto" href="${address}/800?font=roboto">
+            Roboto
+          </a>
       </section>
     </div>
   </body>

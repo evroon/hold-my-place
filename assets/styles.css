@@ -1,3 +1,8 @@
+:root {
+  --main-bg-color: #4b6952;
+  --main-bg-color-light: #699373;
+}
+
 @font-face {
   font-family: 'Lato';
   font-style: normal;
@@ -7,7 +12,7 @@
 
 .header {
   margin: 0rem;
-  background-color: #232323;
+  background-color: var(--main-bg-color);
   color: white;
   overflow: hidden;
   width: 100%;
@@ -18,7 +23,7 @@ body {
   margin: 0;
   font-family: Lato, sans-serif;
   background-color: #1a1b1e;
-  min-width: 320px;
+  min-width: 350px;
 }
 
 h2 {
@@ -36,7 +41,7 @@ hr {
 }
 
 section {
-    margin-bottom: 4rem;
+  margin-bottom: 4rem;
 }
 
 p {
@@ -79,7 +84,8 @@ p {
 
 .copy-link {
   display: flex;
-  width: 80%;
+  width: 100%;
+  max-width: 550px;
   margin: auto;
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -88,7 +94,7 @@ p {
   a {
     color: #ffffff;
     padding: 0.5rem;
-    padding-left: 1.0rem;
+    padding-left: 1rem;
     display: block;
     text-decoration: none;
   }
@@ -118,7 +124,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #2c2c2c;
+  background: var(--main-bg-color);
   color: #333333;
   outline: none;
   border: 2px solid #767676;
@@ -134,17 +140,18 @@ p {
   border: 2px solid #b9b9b9;
 }
 
-.white-icon  {
-    color: #fff;
-    font-size: 1.4rem;
+.white-icon {
+  color: #fff;
+  font-size: 1.4rem;
 }
 
-.font-display {
+.social-icon {
+  margin-right: 0.25rem;
+  font-size: 30px;
+}
+
+.display {
   color: #fff;
-  background-color: #313131;
-  width: 100%;
-  max-width: 300px;
-  margin: auto;
   margin-bottom: 1rem;
   padding: 1rem;
   border-radius: 1rem;
@@ -153,6 +160,18 @@ p {
   font-weight: bold;
   text-decoration: none;
   display: block;
+}
+
+.font-display {
+  background-color: #313131;
+  border: 1px solid #b9b9b9;
+  max-width: 300px;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+
+.font-display:hover {
+  background: #5d5d5d;
 }
 
 .font-montserrat {
@@ -168,4 +187,14 @@ p {
 .font-roboto {
   font-family: 'Roboto';
   src: url('/assets/fonts/lora-semibold.ttf') format('ttf');
+}
+
+.social-link {
+  background-color: var(--main-bg-color);
+  border: 3px solid transparent;
+}
+
+.social-link:hover {
+  border: 3px solid #fff;
+  background: var(--main-bg-color-light);
 }
