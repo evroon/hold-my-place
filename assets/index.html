@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>A placeholder image generator</title>
+    <meta name="description" content="A placeholder image generator." />
+    <meta name="author" content="evroon" />
+
+    <meta property="og:title" content="A placeholder image generator" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://github.com/evroon/hold-my-place" />
+    <meta property="og:description" content="A placeholder image generator." />
+
+    <link rel="icon" href="/assets/favicon.ico" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+
+    <link rel="stylesheet" href="/assets/styles.css?v=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <script src="/assets/index.js" defer></script>
+  </head>
+
+  <body>
+    <div class="header">
+      <h1 id="title">Hold my place</h1>
+      <p id="description">A fast generator of placeholder images</p>
+    </div>
+    <div id="image-body">
+      <img id="preview" class="image" src="/assets/img/600x400.png" />
+    </div>
+    <div id="main-body">
+      <h2>
+        Documentation
+      </h2>
+      <hr />
+      <section>
+        <h3>
+          Size
+        </h3>
+        <p>
+          The size is the only mandatory argument, and is provided in the format <b>width x height</b>:
+        </p>
+
+        <div class="copy-link">
+          <a class="copy-link-input">${address}/800/600</a>
+          <button type="button" class="copy-link-button">
+            <span class="material-icons">
+              <i class="white-icon fa-regular fa-copy"></i>
+            </span>
+          </button>
+        </div>
+
+        <p>
+          Maximum size is <b>3200 x 3200</b>.
+        </p>
+      </section>
+      <hr />
+      <section>
+        <h3>
+          Text
+        </h3>
+        <p>
+          Text can be supplied as query parameter:
+        </p>
+
+        <div class="copy-link">
+          <a class="copy-link-input">${address}/800/600?text=Hold my place</a>
+          <button type="button" class="copy-link-button">
+            <span class="material-icons">
+              <i class="white-icon fa-regular fa-copy"></i>
+            </span>
+          </button>
+        </div>
+
+        For now, newlines and emojis are not supported.
+      </section>
+      <hr />
+      <section>
+        <h3>
+          Color
+        </h3>
+          <p>
+            Font color and background color can be adjusted using hex values:
+          </p>
+
+          <div class="copy-link">
+            <a class="copy-link-input">${address}/800/600?color=fff&background=000</a>
+            <button type="button" class="copy-link-button">
+              <span class="material-icons">
+                <i class="white-icon fa-regular fa-copy"></i>
+              </span>
+            </button>
+          </div>
+
+          <p>
+            CSS values are also supported:
+          </p>
+
+          <div class="copy-link">
+            <a class="copy-link-input">${address}/800/600?color=indigo&background=white</a>
+            <button type="button" class="copy-link-button">
+              <span class="material-icons">
+                <i class="white-icon fa-regular fa-copy"></i>
+              </span>
+            </button>
+          </div>
+      </section>
+    </div>
+  </body>
+</html>

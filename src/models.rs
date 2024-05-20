@@ -10,7 +10,7 @@ impl Font {
     pub fn get_bytes(self) -> &'static [u8] {
         match self {
             Font::Lato => {
-                include_bytes!("../fonts/Lato-SemiBold.ttf")
+                include_bytes!("../assets/fonts/lato-semibold.ttf")
             }
         }
     }

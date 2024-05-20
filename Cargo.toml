@@ -21,3 +21,4 @@ png = "0.17.13"
 csscolorparser = "0.6.2"
 svg = "0.17.0"
 rusttype = "0.9.3"
+tower-http = { version = "0.5.2", features = ["fs"] }
