@@ -7,6 +7,7 @@ pub enum Font {
     Lora,
     Montserrat,
     Roboto,
+    NotoEmoji,
 }
 
 impl Font {
@@ -23,6 +24,9 @@ impl Font {
             }
             Font::Roboto => {
                 include_bytes!("../assets/fonts/roboto-regular.ttf")
+            }
+            Font::NotoEmoji => {
+                include_bytes!("../assets/fonts/notocoloremoji-regular.ttf")
             }
         }
     }
