@@ -74,6 +74,7 @@ async fn image_handler(
     query_params: Query<ImageQueryParams>,
 ) -> impl IntoResponse {
     let content_type = query_params.filetype.get_content_type();
+    let (width, height) = (width.max(10).min(3200), height.max(10).min(3200));
 
     let result = task::spawn_blocking(move || {
         query_params.filetype.get_render_func()(
