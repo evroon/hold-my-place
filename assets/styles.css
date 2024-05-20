@@ -39,6 +39,10 @@ section {
     margin-bottom: 4rem;
 }
 
+p {
+  font-size: 18px;
+}
+
 #main-body {
   margin: auto;
   color: white;
@@ -133,4 +137,35 @@ section {
 .white-icon  {
     color: #fff;
     font-size: 1.4rem;
+}
+
+.font-display {
+  color: #fff;
+  background-color: #313131;
+  width: 100%;
+  max-width: 300px;
+  margin: auto;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  display: block;
+}
+
+.font-montserrat {
+  font-family: 'Montserrat';
+  src: url('/assets/fonts/montserrat-semibold.ttf') format('ttf');
+}
+
+.font-roboto {
+  font-family: 'Roboto';
+  src: url('/assets/fonts/roboto-regular.ttf') format('ttf');
+}
+
+.font-roboto {
+  font-family: 'Roboto';
+  src: url('/assets/fonts/lora-semibold.ttf') format('ttf');
 }

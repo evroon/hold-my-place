@@ -2,29 +2,32 @@ use std::fs::read_to_string;
 
 use axum::{
     extract::{Path, Query},
-    http::header,
+    http::{header, StatusCode},
     response::IntoResponse,
     routing::get,
     Router,
 };
-use tower_http::services::ServeDir;
+use params::ImageQueryParams;
+use tower_http::services::{ServeDir, ServeFile};
 mod models;
+mod params;
 mod render;
 mod svg;
 mod text;
 mod text_builder;
-use models::Font;
-use serde::Deserialize;
 use tokio::task;
 
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt::init();
 
+    let assets_service = ServeDir::new("assets").fallback(ServeFile::new("assets/404.html"));
+
     let app = Router::new()
         .route("/", get(index_handler))
         .route("/:width/:height", get(image_handler))
-        .nest_service("/assets", ServeDir::new("assets"));
+        .nest_service("/assets", assets_service)
+        .fallback(handler_404);
 
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3300")
         .await
@@ -32,29 +35,6 @@ async fn main() {
 
     tracing::debug!("listening on {}", listener.local_addr().unwrap());
     axum::serve(listener, app).await.unwrap();
-}
-
-#[derive(Deserialize)]
-struct ImageQueryParams {
-    text: Option<String>,
-    #[serde(default = "default_color")]
-    color: String,
-    #[serde(default = "default_background_color")]
-    background: String,
-    #[serde(default = "default_font")]
-    font: Font,
-}
-
-fn default_color() -> String {
-    String::from("#999999")
-}
-
-fn default_background_color() -> String {
-    String::from("#dddddd")
-}
-
-fn default_font() -> Font {
-    Font::Lato
 }
 
 async fn index_handler() -> impl IntoResponse {
@@ -69,26 +49,44 @@ async fn index_handler() -> impl IntoResponse {
     }
 }
 
+async fn handler_404() -> impl IntoResponse {
+    (
+        StatusCode::NOT_FOUND,
+        [(header::CONTENT_TYPE, "text/html")],
+        include_str!("../assets/404.html"),
+    )
+}
+
 async fn image_handler(
     Path((width, height)): Path<(u32, u32)>,
     query_params: Query<ImageQueryParams>,
 ) -> impl IntoResponse {
-    (
-        [(header::CONTENT_TYPE, "image/png")],
-        task::spawn_blocking(move || {
-            render::render(
-                width,
-                height,
-                &match &query_params.text {
-                    Some(x) => x.to_string(),
-                    None => format!("{} x {}", width, height),
-                },
-                &query_params.0.color,
-                &query_params.0.background,
-                query_params.font,
-            )
-        })
-        .await
-        .unwrap(),
-    )
+    let result = task::spawn_blocking(move || {
+        render::render(
+            width,
+            height,
+            &match &query_params.text {
+                Some(x) => x.to_string(),
+                None => format!("{} x {}", width, height),
+            },
+            &query_params.0.color,
+            &query_params.0.background,
+            query_params.font,
+        )
+    })
+    .await;
+
+    if let Ok(image) = result {
+        (
+            StatusCode::OK,
+            [(header::CONTENT_TYPE, "image/png")],
+            image.unwrap(),
+        )
+    } else {
+        (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            [(header::CONTENT_TYPE, "text/plain")],
+            "Unexpected error".as_bytes().into(),
+        )
+    }
 }

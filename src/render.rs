@@ -1,9 +1,15 @@
 use ab_glyph::{FontRef, PxScale};
+use csscolorparser::Color;
 use image::codecs::png::PngEncoder;
 use image::{ImageEncoder, Rgb, RgbImage};
 use imageproc::drawing::{draw_text_mut, text_size};
 
 use crate::models::Font;
+use crate::params::{default_background_color, default_color};
+
+fn rgba_to_rgb(color: Color) -> Rgb<u8> {
+    Rgb(color.to_rgba8()[0..3].try_into().unwrap())
+}
 
 pub fn render(
     width: u32,
@@ -12,21 +18,16 @@ pub fn render(
     color: &str,
     background_color: &str,
     font: Font,
-) -> Vec<u8> {
-    let color_parsed = csscolorparser::parse(color);
-    let background_color_parsed = csscolorparser::parse(background_color);
-
-    if color_parsed.is_err() {
-        panic!("color");
-    }
-    if background_color_parsed.is_err() {
-        panic!("background_color");
-    }
-
-    let color_rgb = Rgb(color_parsed.unwrap().to_rgba8()[0..3].try_into().unwrap());
-    let background_color_rgb = Rgb(background_color_parsed.unwrap().to_rgba8()[0..3]
-        .try_into()
-        .unwrap());
+) -> Result<Vec<u8>, String> {
+    // Use default colors when we can't parse the colors.
+    let color_rgb = rgba_to_rgb(match csscolorparser::parse(color) {
+        Ok(x) => x,
+        _ => csscolorparser::parse(&default_color()).unwrap(),
+    });
+    let background_color_rgb = rgba_to_rgb(match csscolorparser::parse(background_color) {
+        Ok(x) => x,
+        _ => csscolorparser::parse(&default_background_color()).unwrap(),
+    });
 
     let mut image = RgbImage::from_pixel(width, height, background_color_rgb); // [237u8, 237u8, 237u8]
 
@@ -63,5 +64,5 @@ pub fn render(
         .write_image(&image, width, height, image::ColorType::Rgb8.into())
         .unwrap();
 
-    cursor.into_inner()
+    Ok(cursor.into_inner())
 }
