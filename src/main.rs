@@ -25,7 +25,8 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(index_handler))
-        .route("/:width/:height", get(image_handler))
+        .route("/:width", get(image_handler_squared))
+        .route("/:width/:height", get(image_handler_complete))
         .nest_service("/assets", assets_service)
         .fallback(handler_404);
 
@@ -57,8 +58,22 @@ async fn handler_404() -> impl IntoResponse {
     )
 }
 
-async fn image_handler(
+async fn image_handler_squared(
+    Path(width): Path<u32>,
+    query_params: Query<ImageQueryParams>,
+) -> impl IntoResponse {
+    image_handler((width, width), query_params).await
+}
+
+async fn image_handler_complete(
     Path((width, height)): Path<(u32, u32)>,
+    query_params: Query<ImageQueryParams>,
+) -> impl IntoResponse {
+    image_handler((width, height), query_params).await
+}
+
+async fn image_handler(
+    (width, height): (u32, u32),
     query_params: Query<ImageQueryParams>,
 ) -> impl IntoResponse {
     let result = task::spawn_blocking(move || {
