@@ -11,10 +11,7 @@ use params::ImageQueryParams;
 use tower_http::services::{ServeDir, ServeFile};
 mod models;
 mod params;
-mod render;
-mod svg;
-mod text;
-mod text_builder;
+mod rendering;
 use tokio::task;
 
 #[tokio::main]
@@ -76,16 +73,18 @@ async fn image_handler(
     (width, height): (u32, u32),
     query_params: Query<ImageQueryParams>,
 ) -> impl IntoResponse {
+    let content_type = query_params.filetype.get_content_type();
+
     let result = task::spawn_blocking(move || {
-        render::render(
+        query_params.filetype.get_render_func()(
             width,
             height,
             &match &query_params.text {
                 Some(x) => x.to_string(),
                 None => format!("{} x {}", width, height),
             },
-            &query_params.0.color,
-            &query_params.0.background,
+            &query_params.color,
+            &query_params.background,
             query_params.font,
         )
     })
@@ -94,13 +93,13 @@ async fn image_handler(
     if let Ok(image) = result {
         (
             StatusCode::OK,
-            [(header::CONTENT_TYPE, "image/png")],
+            [(header::CONTENT_TYPE, content_type)],
             image.unwrap(),
         )
     } else {
         (
             StatusCode::INTERNAL_SERVER_ERROR,
-            [(header::CONTENT_TYPE, "text/plain")],
+            [(header::CONTENT_TYPE, String::from("text/plain"))],
             "Unexpected error".as_bytes().into(),
         )
     }

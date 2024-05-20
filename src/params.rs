@@ -1,9 +1,9 @@
 use models::Font;
 use serde::Deserialize;
 
-use crate::models;
+use crate::models::{self, FileType};
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct ImageQueryParams {
     pub text: Option<String>,
     #[serde(default = "default_color")]
@@ -12,6 +12,8 @@ pub struct ImageQueryParams {
     pub background: String,
     #[serde(default = "default_font")]
     pub font: Font,
+    #[serde(default = "default_filetype")]
+    pub filetype: FileType,
 }
 
 pub fn default_color() -> String {
@@ -24,4 +26,8 @@ pub fn default_background_color() -> String {
 
 pub fn default_font() -> Font {
     Font::Lato
+}
+
+pub fn default_filetype() -> FileType {
+    FileType::Svg
 }

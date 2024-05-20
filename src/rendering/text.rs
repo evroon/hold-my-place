@@ -1,7 +1,9 @@
 use rusttype::{Font, Point, Rect, Scale};
 use svg::node::element::Path;
 
-pub fn _build_text(
+use super::text_builder::Builder;
+
+pub fn build_text(
     font: &Font,
     text: &str,
     fill: &str,
@@ -21,7 +23,7 @@ pub fn _build_text(
         if let Some(bounding_box) = glyph.unpositioned().exact_bounding_box() {
             x += bounding_box.min.x;
 
-            glyph.build_outline(&mut crate::text_builder::Builder {
+            glyph.build_outline(&mut Builder {
                 x,
                 y: glyphs_height + bounding_box.min.y,
                 d: &mut d,

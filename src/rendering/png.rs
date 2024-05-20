@@ -11,7 +11,7 @@ fn rgba_to_rgb(color: Color) -> Rgb<u8> {
     Rgb(color.to_rgba8()[0..3].try_into().unwrap())
 }
 
-pub fn render(
+pub fn render_png(
     width: u32,
     height: u32,
     text: &str,
