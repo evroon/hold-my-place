@@ -1,0 +1,19 @@
+name: docker-build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t hold-my-place .
