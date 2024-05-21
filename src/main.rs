@@ -1,4 +1,4 @@
-use std::fs::read_to_string;
+use std::{env, fs::read_to_string};
 
 use axum::{
     extract::{Path, Query},
@@ -18,6 +18,11 @@ use tokio::task;
 async fn main() {
     tracing_subscriber::fmt::init();
 
+    let address = match env::var_os("HOLD_MY_PLACE_PORT") {
+        Some(v) => v.into_string().unwrap(),
+        None => String::from("0.0.0.0:3300"),
+    };
+
     let assets_service = ServeDir::new("assets").fallback(ServeFile::new("assets/404.html"));
 
     let app = Router::new()
@@ -27,11 +32,11 @@ async fn main() {
         .nest_service("/assets", assets_service)
         .fallback(handler_404);
 
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:3300")
+    let listener = tokio::net::TcpListener::bind(address.clone())
         .await
         .unwrap();
 
-    tracing::debug!("listening on {}", listener.local_addr().unwrap());
+    tracing::info!("listening on {}", listener.local_addr().unwrap());
     axum::serve(listener, app).await.unwrap();
 }
 
