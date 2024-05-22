@@ -2,11 +2,7 @@
 FROM rust:latest as builder
 RUN USER=root cargo new --bin hold-my-place
 WORKDIR /hold-my-place
-COPY ./Cargo.toml ./Cargo.toml
-COPY ./Cargo.lock ./Cargo.lock
-RUN cargo build --release \
-    && rm src/*.rs
-ADD . ./
+COPY . ./
 RUN cargo build --release
 
 # Final stage
