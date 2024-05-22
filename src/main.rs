@@ -18,7 +18,7 @@ use tokio::task;
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    let address = match env::var_os("HOLD_MY_PLACE_PORT") {
+    let listen_address = match env::var_os("HOLD_MY_PLACE_LISTEN_ADDRESS") {
         Some(v) => v.into_string().unwrap(),
         None => String::from("0.0.0.0:3300"),
     };
@@ -32,7 +32,7 @@ async fn main() {
         .nest_service("/assets", assets_service)
         .fallback(handler_404);
 
-    let listener = tokio::net::TcpListener::bind(address.clone())
+    let listener = tokio::net::TcpListener::bind(listen_address.clone())
         .await
         .unwrap();
 
@@ -41,8 +41,13 @@ async fn main() {
 }
 
 async fn index_handler() -> impl IntoResponse {
+    let public_address = match env::var_os("HOLD_MY_PLACE_PUBLIC_ADDRESS") {
+        Some(v) => v.into_string().unwrap(),
+        None => String::from("http://localhost:3300"),
+    };
+
     if let Ok(source) = read_to_string("assets/index.html") {
-        let source_substituted = source.replace("${address}", "http://localhost:3300");
+        let source_substituted = source.replace("${address}", &public_address);
         ([(header::CONTENT_TYPE, "text/html")], source_substituted)
     } else {
         (
