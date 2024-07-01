@@ -13,7 +13,7 @@ tokio = { version = "1.38", features = ["full"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
-ab_glyph = "0.2.23"
+ab_glyph = "0.2.27"
 image = { version = "0.25.0" }
 imageproc = "0.25.0"
 csscolorparser = "0.6.2"
