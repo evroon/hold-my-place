@@ -14,7 +14,7 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 ab_glyph = "0.2.27"
-image = { version = "0.25.0" }
+image = { version = "0.25.2" }
 imageproc = "0.25.0"
 csscolorparser = "0.6.2"
 svg = "0.17.0"
