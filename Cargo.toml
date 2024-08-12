@@ -16,7 +16,7 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 ab_glyph = "0.2.27"
 image = { version = "0.25.2" }
 imageproc = "0.25.0"
-csscolorparser = "0.6.2"
+csscolorparser = "0.7.0"
 svg = "0.17.0"
 rusttype = "0.9.3"
 tower-http = { version = "0.5.2", features = ["fs"] }
