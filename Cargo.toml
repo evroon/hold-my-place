@@ -8,7 +8,7 @@ publish = false
 [dependencies]
 axum = "0.7.9"
 serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0.133"
+serde_json = "1.0.134"
 tokio = { version = "1.42", features = ["full"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
