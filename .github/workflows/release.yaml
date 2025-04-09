@@ -23,7 +23,7 @@ jobs:
         uses: dawidd6/action-get-tag@v1
 
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install rust toolchain
         uses: actions-rs/toolchain@v1
