@@ -332,12 +332,13 @@ checksum = "7a81dae078cea95a014a339291cec439d2f232ebe854a9d672b796c6afafa9b7"
 
 [[package]]
 name = "csscolorparser"
-version = "0.8.0"
+version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3b9e6b904cb9ee4cb0bb93ba2b1bf3dcd2d3fc58c25557934a4b56cbd2ad9f88"
+checksum = "02ee6eae4d99456f92dc379ba21cf08f783ef5525f193c3854b4e921ece045c5"
 dependencies = [
  "num-traits",
  "phf",
+ "serde",
  "uncased",
 ]
 
