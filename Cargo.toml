@@ -7,10 +7,11 @@ publish = false
 
 [dependencies]
 axum = "0.8.7"
+bytes = "1.11.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0.145"
 tokio = { version = "1.48", features = ["full"] }
-tracing = "0.1"
+tracing = "0.1.44"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 ab_glyph = "0.2.32"
@@ -19,4 +20,4 @@ imageproc = "0.25.0"
 csscolorparser = "0.8.1"
 svg = "0.18.0"
 rusttype = "0.9.3"
-tower-http = { version = "0.6.7", features = ["fs"] }
+tower-http = { version = "0.6.8", features = ["fs"] }
