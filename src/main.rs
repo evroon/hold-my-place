@@ -27,8 +27,8 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(index_handler))
-        .route("/:width", get(image_handler_squared))
-        .route("/:width/:height", get(image_handler_complete))
+        .route("/{width}", get(image_handler_squared))
+        .route("/{width}/{height}", get(image_handler_complete))
         .nest_service("/assets", assets_service)
         .fallback(handler_404);
 
